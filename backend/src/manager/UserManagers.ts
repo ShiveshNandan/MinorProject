@@ -21,23 +21,46 @@ export class UserManager {
             socket, name
         })
         this.queue.push(socket.id);
+        socket.send("lobby");
         this.clearQueue();
         this.initHandlers(socket);
     }
-    removeUser(socketId:any){
-        this.users = this.users.filter(x => x.socket.id === socketId)
+
+    removeUser(socketId:string){
+        const user = this.users.find(x => x.socket.id === socketId);
+        // if(!user){
+        // }
+        this.users = this.users.filter(x => x.socket.id !== socketId)
         this.queue = this.queue.filter(x => x === socketId)
     }
+
     clearQueue(){
+        // console.log("inside clear queue")
+        // console.log(this.queue.length)
+        // this.queue.pop();
+        console.log(this.queue)
         if(this.queue.length < 2){
+            // console.log("queue is short")
             return;
         }
-        const user1 = this.users.find(x => x.socket.id === this.queue.pop());
-        const user2 = this.users.find(x => x.socket.id === this.queue.pop());
+        console.log("creating room usermanager")
+        console.log(this.queue)
+        const id1 = this.queue.pop();
+        const id2 = this.queue.pop();
+        const user1 = this.users.find(x => x.socket.id === id1);
+        const user2 = this.users.find(x => x.socket.id === id2);
         if(!user1 || !user2){
             return;
         }
-        const room = this.roomManager.createRoom(user1,user1);   
+        // console.log("user1",user1," user2",user2)
+        // console.log("first")
+        if(user1 != user2){
+            console.log("id1 " + id1 +" id2 "+id2);
+            const room = this.roomManager.createRoom(user1,user2); 
+            console.log("room :" , room);
+        }
+        this.clearQueue();
+        console.log("queue cleared")  
     }
 
     initHandlers(socket:Socket){
