@@ -4,8 +4,8 @@ import { io, Socket } from "socket.io-client";
 
 const URL = "http://localhost:3000";
 
-const Page = () => {
-  const [name, setname] = useState("")
+const Page = ({name,localAudioTrack,localVideoTrack}:{name:any,localAudioTrack:any,localVideoTrack:any}) => {
+  // const [name, setname] = useState("")
   const [socket, setsocket] = useState<null | Socket>(null);
   const [lobby, setlobby] = useState(true);
   // const [connected, setconnected] = useState(false);
@@ -50,7 +50,7 @@ const Page = () => {
     if (typeof window !== "undefined") {
       const urlParams = new URLSearchParams(window.location.search);
       const naming = urlParams.get("name")
-      setname(naming!);
+      // setname(naming!);
     }
     
   }, [])
