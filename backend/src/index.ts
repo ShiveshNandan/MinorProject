@@ -1,12 +1,11 @@
 import { Socket } from "socket.io";
 import http from "http";
-
 import express from 'express';
 import { Server } from 'socket.io';
 import { UserManager } from "./manager/UserManagers";
 
 const app = express();
-const server = http.createServer(http);
+const server = http.createServer(app);  // Use `app` here instead of `http`
 
 const io = new Server(server, {
   cors: {
@@ -26,9 +25,10 @@ io.on('connection', (socket: Socket) => {
   socket.on("disconnect", () => {
     console.log("user disconnected");
     userManager.removeUser(socket.id);
-  })
+  });
 });
 
-server.listen(3000, () => {
-    console.log('listening on *:3000');
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => {
+  console.log(`Listening on port ${PORT}`);
 });
