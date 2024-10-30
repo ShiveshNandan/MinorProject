@@ -2,7 +2,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { io, Socket } from "socket.io-client";
 
-const URL = "http://localhost:3000";
+const URL = process.env.NEXT_PUBLIC_API_URL;
+console.log(URL)
 
 const Room = ({
   name,
