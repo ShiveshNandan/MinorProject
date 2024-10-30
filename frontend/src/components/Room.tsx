@@ -21,8 +21,9 @@ const Room = ({
   const [remoteVideoTrack, setRemoteVideoTrack] = useState<MediaStreamTrack | null>(null);
   const [remoteAudioTrack, setRemoteAudioTrack] = useState<MediaStreamTrack | null>(null);
   const [remoteMediaStream, setRemoteMediaStream] = useState<MediaStream | null>(null);
-  const remoteVideoRef = useRef<any>();
-  const localVideoRef = useRef<any>();
+  const remoteVideoRef = useRef<HTMLVideoElement | null>(null);
+  const localVideoRef = useRef<HTMLVideoElement | null>(null);
+  console.log(socket,sendingPc,receivingPc,remoteAudioTrack,remoteMediaStream,remoteVideoTrack);
 
   useEffect(() => {
       const socket = io(URL);
@@ -74,11 +75,8 @@ const Room = ({
           }
           setRemoteMediaStream(stream);
           setReceivingPc(pc);
-          //@ts-ignore
-          window.pcr = pc;
-          pc.ontrack = (e) => {
-            alert("alert");
-          }
+          
+        //   window.pcr = pc;
 
           pc.onicecandidate = async (e) => {
               if(!e.candidate) {
@@ -110,15 +108,20 @@ const Room = ({
                 setRemoteAudioTrack(track1)
                 setRemoteVideoTrack(track2)
             }
-            remoteVideoRef.current.srcObject.addTrack(track1)
-            remoteVideoRef.current.srcObject.addTrack(track2)
-            remoteVideoRef.current.play();
+            //@ts-expect-error Add track to srcObject if available
+            remoteVideoRef.current?.srcObject?.addTrack(track1)
+            
+            //@ts-expect-error Add track to srcObject if available
+            remoteVideoRef.current?.srcObject?.addTrack(track2)
+            
+            remoteVideoRef.current?.play();
         }, 500)
     });
 
 
       socket.on("answer", ({roomId, sdp: remoteSdp}) => {
           setLobby(false);
+          console.log(roomId)
           setSendingPc(pc => {
               pc?.setRemoteDescription(remoteSdp)
               return pc;
@@ -159,12 +162,15 @@ const Room = ({
   useEffect(() => {
       if (localVideoRef.current) {
           if (localVideoTrack) {
+            
               localVideoRef.current.srcObject = new MediaStream([localVideoTrack]);
+           
               localVideoRef.current.play();
           }
       }
   }, [localVideoRef])
   
+  console.log("type of localVideoRef : ",typeof(localVideoRef));
 
   return (
     <div>

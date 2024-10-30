@@ -1,6 +1,6 @@
 "use client"
 import React, { useEffect, useRef, useState } from 'react'
-import Room from "@/app/Room/page"
+import Room from "./Room"
 
 const Page = () => {
   const [name, setname] = useState("")
