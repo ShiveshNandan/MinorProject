@@ -14,6 +14,10 @@ const io = new Server(server, {
   }
 });
 
+app.get('/', (req, res) => {
+  res.status(200).send('Server is up and running');
+});
+
 const userManager = new UserManager();
 
 io.on('connection', (socket: Socket) => {
