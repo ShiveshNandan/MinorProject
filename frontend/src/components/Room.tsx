@@ -1,9 +1,9 @@
 "use client"
 import React, { useEffect, useRef, useState } from 'react'
 import { io, Socket } from "socket.io-client";
+import Navbar from './navbar';
 
 const URL = process.env.NEXT_PUBLIC_API_URL;
-console.log(URL)
 
 const Room = ({
   name,
@@ -23,7 +23,12 @@ const Room = ({
   const [remoteMediaStream, setRemoteMediaStream] = useState<MediaStream | null>(null);
   const remoteVideoRef = useRef<HTMLVideoElement | null>(null);
   const localVideoRef = useRef<HTMLVideoElement | null>(null);
-  console.log(socket,sendingPc,receivingPc,remoteAudioTrack,remoteMediaStream,remoteVideoTrack);
+
+  setTimeout(() => {
+      if(socket && sendingPc &&  receivingPc && remoteAudioTrack && remoteMediaStream && remoteVideoTrack){
+          console.log("all fine till now");
+      }
+  }, 3000);
 
   useEffect(() => {
       const socket = io(URL);
@@ -92,11 +97,11 @@ const Room = ({
               }
           }
 
-
           socket.emit("answer", {
             roomId,
             sdp: sdp
         });
+
         setTimeout(() => {
             const track1 = pc.getTransceivers()[0].receiver.track
             const track2 = pc.getTransceivers()[1].receiver.track
@@ -115,7 +120,7 @@ const Room = ({
             remoteVideoRef.current?.srcObject?.addTrack(track2)
             
             remoteVideoRef.current?.play();
-        }, 500)
+        }, 1500)
     });
 
 
@@ -174,13 +179,18 @@ const Room = ({
 
   return (
     <div>
+        <Navbar/>
+        <div className='pt-20'>
       {`hi, ${name}`}
-      <video autoPlay height={400} width={400} className='border border-pink-200' ref={localVideoRef}></video>
+      <div className='w-10/12 flex m-auto justify-around max-lg:flex-col max-lg:h-[90vh] '>
+      <video autoPlay className='border border-pink-200 max-lg:m-auto ' ref={localVideoRef}></video>
       {lobby ? 
       "waiting to connect you with someone !!" 
       : 
-      <video autoPlay height={400} width={400} className='border border-pink-200'  ref={remoteVideoRef}></video>
-      }
+      <video autoPlay className='border border-pink-200 max-lg:m-auto'  ref={remoteVideoRef}></video>
+    }
+    </div>
+    </div>
     </div>
   )
 }
