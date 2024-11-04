@@ -41,24 +41,27 @@ const Page = () => {
     return (
       <div>
         <Navbar />
-        <div className="pt-28 flex max-md:flex-col w-10/12 m-auto my-auto h-screen">
-          <div className="w-5/12 m-auto">
-            <p className="text-center text-4xl font-semibold">
+        <div className="pt-28 flex max-md:flex-col-reverse w-10/12 m-auto my-auto flex-start max-sm:w-11/12 max-md:pt-7 min-md:h-screen">
+          <div className="w-5/12 max-md:w-full m-auto flex flex-col max-md:mb-10 max-sm:mt-[-10vw] max-sm:flex-col-reverse">
+          <div className="">
+            <p className="text-center text-4xl font-semibold max-sm:text-2xl">
               Meet for Mute: Bridging Communication Gaps
             </p>
-            <p className={`${theme == "dark" ? "text-gray-300" : "text-gray-700"} text-center text-sm py-7 `}>
+            <p className={`${theme == "dark" ? "text-gray-300" : "text-gray-700"} text-center text-sm py-7 max-sm:text-xs`}>
               Empowering seamless conversations for everyone, with real-time
               sign language interpretation and easy accessibility for those who
               communicate differently.
             </p>
-            <div className="flex justify-center m-1 max-sm:border-b-2 pb-8 mb-5 my-auto ">
+            </div>
+            <div className="flex justify-center m-1 max-sm:border-b-2 pb-8 mb-5 my-auto max-sm:mt-16">
               <input type="text" className="bg-blue-200 mx-2 p-1 rounded px-3 w-[300px]" onChange={(e) => setname(e.target.value)} />
               <button onClick={() => setjoined(true)} className="bg-blue-500 px-4 rounded py-1">
                 Join
               </button>
+            {/* </div> */}
             </div>
           </div>
-          <video className="m-auto h-[350px] rounded-md max-md:mb-20 my-auto" autoPlay ref={videoRef} src=""></video>
+          <video className="m-auto max-sm:h-auto h-[350px] rounded-md max-md:mb-10 max-sm:m-auto my-auto max-md:pt-16" autoPlay ref={videoRef} src=""></video>
         </div>
       </div>
     );

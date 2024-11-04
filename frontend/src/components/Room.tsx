@@ -181,16 +181,24 @@ const Room = ({
     <div>
         <Navbar/>
         <div className='pt-20'>
-      {`hi, ${name}`}
-      <div className='w-10/12 flex m-auto justify-around max-lg:flex-col max-lg:h-[90vh] '>
-      <video autoPlay className='border border-pink-200 max-lg:m-auto ' ref={localVideoRef}></video>
-      {lobby ? 
-      "waiting to connect you with someone !!" 
-      : 
-      <video autoPlay className='border border-pink-200 max-lg:m-auto'  ref={remoteVideoRef}></video>
-    }
-    </div>
-    </div>
+  {/* {`hi, ${name}`} */}
+  <div className='w-8/12 flex m-auto justify-around max-lg:flex-col relative max-md:w-11/12'>
+  {!lobby ? 
+    <video autoPlay className='border border-pink-200 max-lg:m-auto h-[75vh] w-full rounded-lg max-sm:h-[85vh]' 
+    // style={{ objectFit: 'scale-down' }} 
+    style={{ transform: 'scaleX(-1)'}} 
+    ref={remoteVideoRef}></video>
+    : 
+    <div className='border border-pink-200 max-lg:m-auto h-[75vh] w-full rounded-lg m-auto flex justify-center  max-sm:h-[85vh] '><p className='flex flex-col justify-center'>waiting to connect you with someone !!</p></div>
+}  
+    
+      <div className='absolute bottom-2 right-2'>
+        <video autoPlay className='border border-pink-200 max-lg:m-auto bg-blue-300 rounded-lg h-[150px] w-[200px] max-md:w-[100px]' style={{ objectFit: 'cover', transform: 'scaleX(-1)' }} ref={localVideoRef}></video>
+      </div>
+    
+  </div>
+</div>
+
     </div>
   )
 }
