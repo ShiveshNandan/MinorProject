@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Room from "./Room";
 import Navbar from "./navbar";
 import { useTheme } from "next-themes";
+import Image from "next/image";
 
 const Page = () => {
   const [name, setname] = useState("");
@@ -12,7 +13,10 @@ const Page = () => {
   const [localAudioTrack, setlocalAudioTrack] =
     useState<MediaStreamTrack | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-
+  const [isVideoOff, setIsVideoOff] = useState(false);
+  const [isAudioMuted, setIsAudioMuted] = useState(true);
+  // const [Loading, setLoading] = useState(true);
+ 
   const getCam = async () => {
     const streams = await window.navigator.mediaDevices.getUserMedia({
       video: true,
@@ -22,12 +26,32 @@ const Page = () => {
     const videoTrack = streams.getVideoTracks()[0];
     setlocalAudioTrack(audioTrack);
     setlocalVideoTrack(videoTrack);
-    if (!videoRef.current) {
-      return;
+    if (videoRef.current) {
+      videoRef.current.srcObject = new MediaStream([videoTrack]);
+      videoRef.current.play();
     }
-    videoRef.current!.srcObject = new MediaStream([videoTrack]);
-    videoRef.current!.play();
   };
+
+  const toggleAudio = () => {
+    if (localAudioTrack) {
+      localAudioTrack.enabled = !isAudioMuted;
+      setIsAudioMuted(!isAudioMuted);
+    }
+  };
+  const toggleVideo = () => {
+    if (localVideoTrack && !isVideoOff) {
+      localVideoTrack.stop();
+      localVideoTrack.enabled = false;
+      setIsVideoOff(true);
+    }else{
+      getCam()
+      setIsVideoOff(false);
+    }
+  };
+
+
+  // console.log(localVideoTrack?.enabled)
+  // console.log("Audio: ",localAudioTrack?.enabled)
 
   useEffect(() => {
     if (videoRef && videoRef.current) {
@@ -35,14 +59,18 @@ const Page = () => {
     }
   }, [videoRef]);
 
+
   const { theme } = useTheme();
 
   if (!joined) {
     return (
       <div>
         <Navbar />
+        {/* {Loading ? 
+        <div></div> 
+        :  */}
         <div className="pt-28 flex max-md:flex-col-reverse w-10/12 m-auto my-auto flex-start max-sm:w-11/12 max-md:pt-7 min-md:h-screen">
-          <div className="w-5/12 max-md:w-full m-auto flex flex-col max-md:mb-10 max-sm:mt-[-10vw] max-sm:flex-col-reverse">
+          <div className="w-5/12 max-md:w-full m-auto flex flex-col max-md:mb-10 max-sm:mt-[-10vw] max-md:flex-col-reverse">
           <div className="">
             <p className="text-center text-4xl font-semibold max-sm:text-2xl">
               Meet for Mute: Bridging Communication Gaps
@@ -61,9 +89,29 @@ const Page = () => {
             {/* </div> */}
             </div>
           </div>
-          <video className="m-auto max-sm:h-auto h-[350px] rounded-md max-md:mb-10 max-sm:m-auto my-auto max-md:pt-16" autoPlay ref={videoRef} src=""></video>
+          <div>
+          <video className="m-auto max-sm:h-auto h-[350px] rounded-md max-md:mb-5 max-sm:m-auto my-auto max-md:pt-16" autoPlay ref={videoRef} style={{transform: "scaleX(-1)" }} src=""></video>
+          <div className="flex justify-center max-md:mb-10">
+            <div onClick={toggleAudio} className="bg-pink-400 p-2 mr-5 rounded-full">
+              {!isAudioMuted ? 
+              <Image height={1000} width={1000} src={"/microphone.png"} className="w-[35px]" alt=""/>
+              :
+              <Image height={1000} width={1000} src={"/microphone (1).png"} className="w-[35px]" alt=""/>
+            }
+            </div>
+            <div onClick={toggleVideo} className="bg-pink-400 p-2 rounded-full">
+            {isVideoOff ? 
+              <Image height={1000} width={1000} src={"/no-video.png"} className="w-[35px]" alt=""/>
+              :
+              <Image height={1000} width={1000} src={"/video-camera.png"} className="w-[35px]" alt=""/>
+            }
+            </div>
+          </div>
+          </div>
         </div>
+        {/* } */}
       </div>
+          
     );
   } else {
     return (
