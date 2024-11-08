@@ -89,21 +89,21 @@ const Page = () => {
             {/* </div> */}
             </div>
           </div>
-          <div>
-          <video className="m-auto max-sm:h-auto h-[350px] rounded-md max-md:mb-5 my-auto max-md:pt-16" autoPlay ref={videoRef} style={{transform: "scaleX(-1)" }} src=""></video>
-          <div className="flex justify-center my-3 max-md:mb-5 max-sm:my-0">
-            <div onClick={toggleAudio} className="bg-pink-400 p-2 mr-5 rounded-full">
+          <div className="relative">
+          <video className=" m-auto max-sm:h-auto h-[350px] rounded-md max-md:mb-5 my-auto max-md:pt-16" autoPlay ref={videoRef} style={{transform: "scaleX(-1)" }} src=""></video>
+          <div className="flex justify-center my-3 max-md:mb-5 max-sm:my-0 ">
+            <div onClick={toggleAudio} className={`${isAudioMuted? "bg-[#1f1d1d]" : "bg-[#f94d4d]"} p-4 mr-5 rounded-full`}>
               {!isAudioMuted ? 
-              <Image height={1000} width={1000} src={"/microphone.png"} className="w-[35px]" alt=""/>
+              <Image height={1000} width={1000} src={"/microphone.png"} className={`w-[25px] ${!isAudioMuted? "invert-[.15]" : "invert-[.55]"} `} alt=""/>
               :
-              <Image height={1000} width={1000} src={"/microphone (1).png"} className="w-[35px]" alt=""/>
+              <Image height={1000} width={1000} src={"/microphone (1).png"} className={`w-[25px] ${!isAudioMuted? "invert-[.15]" : "invert-[.55]"} `} alt=""/>
             }
             </div>
-            <div onClick={toggleVideo} className="bg-pink-400 p-2 rounded-full">
+            <div onClick={toggleVideo} className={`${isVideoOff? "bg-[#f94d4d]" : "bg-[#1f1d1d]"} p-4 rounded-full`}>
             {isVideoOff ? 
-              <Image height={1000} width={1000} src={"/no-video.png"} className="w-[35px]" alt=""/>
+              <Image height={1000} width={1000} src={"/no-video.png"} className={`w-[25px] ${isVideoOff? "invert-[.15]" : "invert-[.55]"}`} alt=""/>
               :
-              <Image height={1000} width={1000} src={"/video-camera.png"} className="w-[35px]" alt=""/>
+              <Image height={1000} width={1000} src={"/video-camera.png"} className={`w-[25px] ${isVideoOff? "invert-[.15]" : "invert-[.55]"}`} alt=""/>
             }
             </div>
           </div>
