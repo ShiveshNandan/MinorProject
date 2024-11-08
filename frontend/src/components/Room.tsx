@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { io, Socket } from "socket.io-client";
 import Navbar from "./navbar";
+import Image from "next/image";
 
 const URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -14,9 +15,12 @@ const Room = ({
   localAudioTrack: MediaStreamTrack | null;
   localVideoTrack: MediaStreamTrack | null;
 }) => {
+  const [isVideoOff, setIsVideoOff] = useState(true);
+  const [isAudioMuted, setIsAudioMuted] = useState(true);
+
+
   const [lobby, setLobby] = useState(true);
-//   const [videoSwitch, setvideoSwitch] = useState(true);
-  let videoSwitch = true;
+  const [videoSwitch, setvideoSwitch] = useState(true);
   const [socket, setSocket] = useState<null | Socket>(null);
   const [sendingPc, setSendingPc] = useState<null | RTCPeerConnection>(null);
   const [receivingPc, setReceivingPc] = useState<null | RTCPeerConnection>(
@@ -40,7 +44,7 @@ const Room = ({
       remoteMediaStream &&
       remoteVideoTrack
     ) {
-    //   console.log("all fine till now");
+
     }
   }, 3000);
 
@@ -188,18 +192,38 @@ const Room = ({
   }, [localVideoRef]);
 
   const switchVideo = () => {
-    // setvideoSwitch(!videoSwitch);
-    videoSwitch = !videoSwitch;
-    console.log(videoSwitch);
+    setvideoSwitch((prev) => !prev); // Toggle videoSwitch using setVideoSwitch
+    console.log(videoSwitch)
   };
 
-//   console.log("type of localVideoRef : ", typeof localVideoRef);
+
+  const toggleAudio = () => {
+    if (localAudioTrack) {
+      localAudioTrack.enabled = !isAudioMuted;
+      setIsAudioMuted(!isAudioMuted);
+    }
+  };
+  const toggleVideo = () => {
+    if (localVideoTrack) {
+        localVideoTrack.enabled = !isVideoOff;
+        setIsVideoOff(!isVideoOff);
+      }
+    // if (localVideoTrack && !isVideoOff) {
+    //   localVideoTrack.stop();
+    //   localVideoTrack.enabled = false;
+    //   setIsVideoOff(true);
+    // }else{
+    //   getCam()
+    //   setIsVideoOff(false);
+    // }
+  };
+
+
 
   return (
     <div>
       <Navbar />
       <div className="pt-20">
-        {/* {`hi, ${name}`} */}
         <div className="w-8/12 flex m-auto justify-around max-lg:flex-col relative max-md:w-11/12">
           {!lobby ? (
             <div>
@@ -207,7 +231,6 @@ const Room = ({
                 <video
                   autoPlay
                   className="border border-pink-200 max-lg:m-auto h-[75vh] w-full rounded-lg max-sm:h-[85vh]"
-                  // style={{ objectFit: 'scale-down' }}
                   style={{ transform: "scaleX(-1)" }}
                   ref={remoteVideoRef}
                 ></video>
@@ -215,42 +238,59 @@ const Room = ({
                 <video
                   autoPlay
                   className="border border-pink-200 max-lg:m-auto h-[75vh] w-full rounded-lg max-sm:h-[85vh]"
-                  // style={{ objectFit: 'scale-down' }}
                   style={{ transform: "scaleX(-1)" }}
                   ref={localVideoRef}
                 ></video>
               )}
             </div>
           ) : (
-            <div className="border border-pink-200 max-lg:m-auto h-[75vh] w-full rounded-lg m-auto flex justify-center  max-sm:h-[85vh] ">
+            <div className="border border-pink-200 max-lg:m-auto h-[75vh] w-full rounded-lg m-auto flex justify-center max-sm:h-[85vh]">
               <p className="flex flex-col justify-center">
-                waiting to connect you with someone !!
+                Waiting to connect you with someone!!
               </p>
             </div>
           )}
 
           <div onClick={() => switchVideo()} className="absolute bottom-2 right-2">
-          {!videoSwitch ? (
-                <video
+            {!videoSwitch ? (
+              <video
                 autoPlay
                 className="border border-pink-200 max-lg:m-auto bg-blue-300 rounded-lg h-[150px] w-[200px] max-md:w-[100px]"
                 style={{ objectFit: "cover", transform: "scaleX(-1)" }}
                 ref={remoteVideoRef}
               ></video>
-              ) : (
-                <video
-              autoPlay
-              className="border border-pink-200 max-lg:m-auto bg-blue-300 rounded-lg h-[150px] w-[200px] max-md:w-[100px]"
-              style={{ objectFit: "cover", transform: "scaleX(-1)" }}
-              ref={localVideoRef}
-            ></video>
-              )}
-            
+            ) : (
+              <video
+                autoPlay
+                className="border border-pink-200 max-lg:m-auto bg-blue-300 rounded-lg h-[150px] w-[200px] max-md:w-[100px]"
+                style={{ objectFit: "cover", transform: "scaleX(-1)" }}
+                ref={localVideoRef}
+              ></video>
+            )}
+          </div>
+          <div className="absolute bottom-2 left-4">
+          <div className="flex justify-center">
+            <div onClick={toggleAudio} className="bg-pink-400 p-2 mr-5 rounded-full">
+              {!isAudioMuted ? 
+              <Image height={1000} width={1000} src={"/microphone.png"} className="w-[35px]" alt=""/>
+              :
+              <Image height={1000} width={1000} src={"/microphone (1).png"} className="w-[35px]" alt=""/>
+            }
+            </div>
+            <div onClick={toggleVideo} className="bg-pink-400 p-2 rounded-full">
+            {!isVideoOff ? 
+              <Image height={1000} width={1000} src={"/no-video.png"} className="w-[35px]" alt=""/>
+              :
+              <Image height={1000} width={1000} src={"/video-camera.png"} className="w-[35px]" alt=""/>
+            }
+            </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   );
 };
+
 
 export default Room;

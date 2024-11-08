@@ -90,8 +90,8 @@ const Page = () => {
             </div>
           </div>
           <div>
-          <video className="m-auto max-sm:h-auto h-[350px] rounded-md max-md:mb-5 max-sm:m-auto my-auto max-md:pt-16" autoPlay ref={videoRef} style={{transform: "scaleX(-1)" }} src=""></video>
-          <div className="flex justify-center max-md:mb-10">
+          <video className="m-auto max-sm:h-auto h-[350px] rounded-md max-md:mb-5 my-auto max-md:pt-16" autoPlay ref={videoRef} style={{transform: "scaleX(-1)" }} src=""></video>
+          <div className="flex justify-center my-3 max-md:mb-5 max-sm:my-0">
             <div onClick={toggleAudio} className="bg-pink-400 p-2 mr-5 rounded-full">
               {!isAudioMuted ? 
               <Image height={1000} width={1000} src={"/microphone.png"} className="w-[35px]" alt=""/>
