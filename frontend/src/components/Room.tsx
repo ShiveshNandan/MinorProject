@@ -19,7 +19,7 @@ const Room = ({
   const [isAudioMuted, setIsAudioMuted] = useState(true);
 
   const [lobby, setLobby] = useState(true);
-  const [videoSwitch, setvideoSwitch] = useState(true);
+  // const [videoSwitch, setvideoSwitch] = useState(true);
   const [socket, setSocket] = useState<null | Socket>(null);
   const [sendingPc, setSendingPc] = useState<null | RTCPeerConnection>(null);
   const [receivingPc, setReceivingPc] = useState<null | RTCPeerConnection>(
@@ -194,7 +194,7 @@ const Room = ({
 
     socket.on("answer", ({ roomId, sdp: remoteSdp }) => {
       setLobby(false);
-      // console.log(roomId);
+      console.log(roomId);
       setSendingPc((pc) => {
         pc?.setRemoteDescription(remoteSdp);
         return pc;
@@ -252,10 +252,11 @@ const Room = ({
     }
   }, [localVideoRef]);
 
-  const switchVideo = () => {
-    setvideoSwitch((prev) => !prev); // Toggle videoSwitch using setVideoSwitch
-    console.log(videoSwitch);
-  };
+  // const switchVideo = () => {
+  //   setvideoSwitch((prev) => !prev);
+  //   console.log(videoSwitch);
+  // };
+  // switchVideo();
 
   const toggleAudio = () => {
     if (localAudioTrack) {
@@ -349,21 +350,21 @@ const formatTime = (time: number) => {
         <div className="w-8/12 flex m-auto justify-around max-lg:flex-col relative max-md:w-11/12">
           {!lobby ? 
             <div>
-              {videoSwitch ? 
+              {/* {videoSwitch ?  */}
                 <video
                   autoPlay
                   className="border border-pink-200 max-lg:m-auto h-[75vh] w-full rounded-lg max-sm:h-[85vh]"
                   style={{ transform: "scaleX(-1)" }}
                   ref={remoteVideoRef}
                 ></video>
-               : 
-                <video
+               {/* :  */}
+                {/* <video
                   autoPlay
                   className="border border-pink-200 max-lg:m-auto h-[75vh] w-full rounded-lg max-sm:h-[85vh]"
                   style={{ transform: "scaleX(-1)" }}
                   ref={localVideoRef}
                 ></video>
-              }
+              } */}
             </div>
            : 
             <div className="border border-pink-200 max-lg:m-auto h-[75vh] w-full rounded-lg m-auto flex justify-center max-sm:h-[85vh]">
@@ -376,21 +377,21 @@ const formatTime = (time: number) => {
           <div
             className="absolute bottom-2 right-2"
           >
-            {!videoSwitch ? 
-              <video
+            {/* {!videoSwitch ?  */}
+              {/* <video
                 autoPlay
                 className="border border-pink-200 max-lg:m-auto bg-blue-300 rounded-lg h-[150px] w-[200px] max-md:w-[100px]"
                 style={{ objectFit: "cover", transform: "scaleX(-1)" }}
                 ref={remoteVideoRef}
               ></video>
-             : 
+             :  */}
               <video
                 autoPlay
                 className="border border-pink-200 max-lg:m-auto bg-blue-300 rounded-lg h-[150px] w-[200px] max-md:w-[100px]"
                 style={{ objectFit: "cover", transform: "scaleX(-1)" }}
                 ref={localVideoRef}
               ></video>
-            }
+            {/* } */}
           </div>
 
           {/*============================ controllers =============================== */}
