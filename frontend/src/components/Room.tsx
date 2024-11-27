@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { io, Socket } from "socket.io-client";
 import Navbar from "./navbar";
 import Image from "next/image";
+// import { useRouter } from "next/router";
 
 const URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -17,6 +18,7 @@ const Room = ({
 }) => {
   const [isVideoOff, setIsVideoOff] = useState(true);
   const [isAudioMuted, setIsAudioMuted] = useState(true);
+  // const router = useRouter();
 
   const [lobby, setLobby] = useState(true);
   // const [videoSwitch, setvideoSwitch] = useState(true);
@@ -343,6 +345,12 @@ const formatTime = (time: number) => {
   return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
 };
 
+const call = () => {
+  // alert("hello")
+  // router.reload();
+  window.location.reload();
+}
+
   return (
     <div>
       <Navbar />
@@ -482,7 +490,7 @@ const formatTime = (time: number) => {
           </div>
           <div className="absolute bottom-3 right-9">
                 
-                <button className="p-2 bg-red-500 text-white rounded-full" onClick={() => {startRecording()}}><Image
+                <button className="p-2 bg-red-500 text-white rounded-full" onClick={() => { call()}}><Image
                     height={1000}
                     width={1000}
                     src={"/call.png"}

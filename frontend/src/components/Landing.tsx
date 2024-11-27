@@ -73,7 +73,8 @@ const Page = () => {
           <div className="w-5/12 max-md:w-full m-auto flex flex-col max-md:mb-10 max-sm:mt-[-10vw] max-md:flex-col-reverse">
           <div className="">
             <p className="text-center text-4xl font-semibold max-sm:text-2xl">
-              Meet for Mute: Bridging Communication Gaps
+              Samwad: Bridging Communication Gaps
+              {/* Meet for Mute: Bridging Communication Gaps */}
             </p>
             <p className={`${theme == "dark" ? "text-gray-300" : "text-gray-700"} text-center text-sm py-7 max-sm:text-xs`}>
               Empowering seamless conversations for everyone, with real-time

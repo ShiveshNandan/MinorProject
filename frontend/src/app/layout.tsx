@@ -15,7 +15,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Meet for Mute",
+  title: "Samwad",
   description: "Empowering seamless conversations for everyone, with real-time sign language interpretation and easy accessibility for those who communicate differently.",
 };
 
