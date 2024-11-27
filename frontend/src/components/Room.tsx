@@ -401,7 +401,7 @@ const formatTime = (time: number) => {
                 onClick={toggleAudio}
                 className={`${
                   isAudioMuted ? "bg-[#1f1d1d]" : "bg-[#f94d4d]"
-                } p-4 mr-5 rounded-full`}
+                } max-sm:text-xs max-sm:p-2 p-4 mr-5 rounded-full`}
               >
                 {!isAudioMuted ? (
                   <Image
@@ -429,7 +429,7 @@ const formatTime = (time: number) => {
                 onClick={toggleVideo}
                 className={`${
                   isVideoOff ? "bg-[#1f1d1d]" : "bg-[#f94d4d]"
-                } p-4 mr-5 rounded-full`}
+                } max-sm:text-xs max-sm:p-2 p-4 mr-5 rounded-full`}
               >
                 {!isVideoOff ? (
                   <Image
@@ -457,14 +457,14 @@ const formatTime = (time: number) => {
                 {!isScreenSharing ?  
                 <button
                   onClick={startScreenShare}
-                  className="p-4 bg-blue-500 text-white rounded-full mr-4"
+                  className="max-sm:text-xs max-sm:p-2 p-4 bg-blue-500 text-white rounded-full mr-4"
                 >
                   Share Screen
                 </button>
                 :
                 <button
                   onClick={stopScreenShare}
-                  className="p-4 bg-red-500 text-white rounded-full mr-4"
+                  className="max-sm:text-xs max-sm:p-2 p-4 bg-red-500 text-white rounded-full mr-4"
                 >
                   Stop Sharing
                 </button>
@@ -479,6 +479,18 @@ const formatTime = (time: number) => {
                 :
                 <button className="px-2 bg-red-500 text-white rounded-full" onClick={() => {stopRecording()}}>recording...</button>
                 }
+          </div>
+          <div className="absolute bottom-3 right-9">
+                
+                <button className="p-2 bg-red-500 text-white rounded-full" onClick={() => {startRecording()}}><Image
+                    height={1000}
+                    width={1000}
+                    src={"/call.png"}
+                    className={`w-[25px] 
+                     `}
+                    alt=""
+                  /></button>
+                
           </div>
           <div className="absolute top-2 left-4">
                 {!remoteVideoRef.current ? "" : 

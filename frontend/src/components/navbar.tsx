@@ -17,7 +17,7 @@ const Navbar = () => {
           <h1
             className={`hover:cursor-pointer transition-all duration-300 capitalize font-bold text-[1.4rem] tracking-[0.5px] max-sm:mx-5 max-sm:text-xl`}
           >
-            meet for <span className="block-inline text-[#ffaa2b] "> mute</span>
+            Sam<span className="block-inline text-[#ffaa2b] ">wad</span>
           </h1>
         </p>
         <div>
